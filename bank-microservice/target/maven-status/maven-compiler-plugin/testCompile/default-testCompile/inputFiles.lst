@@ -1,0 +1,8 @@
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/controller/RootControllerTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/controller/BranchControllerTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/service/MemberServiceTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/service/BranchServiceTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/controller/MemberControllerTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/specification/MemberSpecificationTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/SmokeTest.java
+/home/colton_c/aline-financial/aline-bank-microservice/bank-microservice/src/test/java/com/aline/bankmicroservice/controller/BankControllerTest.java

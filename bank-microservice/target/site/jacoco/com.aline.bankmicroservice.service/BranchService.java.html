@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BranchService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bank-microservice</a> &gt; <a href="index.source.html" class="el_package">com.aline.bankmicroservice.service</a> &gt; <span class="el_source">BranchService.java</span></div><h1>BranchService.java</h1><pre class="source lang-java linenums">package com.aline.bankmicroservice.service;
+
+import com.aline.bankmicroservice.dto.request.CreateBranch;
+import com.aline.bankmicroservice.dto.request.UpdateBranch;
+import com.aline.bankmicroservice.exception.BankNotFoundException;
+import com.aline.core.exception.notfound.BranchNotFoundException;
+import com.aline.core.model.Bank;
+import com.aline.core.model.Branch;
+import com.aline.core.paginated.BranchPaginated;
+import com.aline.core.repository.BankRepository;
+import com.aline.core.repository.BranchRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
+
+@Service(&quot;Branch Service&quot;)
+<span class="fc" id="L22">@RequiredArgsConstructor</span>
+<span class="fc" id="L23">@Slf4j(topic = &quot;Branch Service&quot;)</span>
+public class BranchService {
+    private final BranchRepository branchRepository;
+    private final BankRepository bankRepository;
+    private final ModelMapper mapper;
+
+    public BranchPaginated getBranches(Pageable pageable) {
+<span class="fc" id="L30">        Page&lt;Branch&gt; branchPage = branchRepository.findAll(pageable);</span>
+<span class="fc" id="L31">        return new BranchPaginated(branchPage.getContent(), pageable, branchPage.getTotalElements());</span>
+    }
+
+    /**
+     * Creates a branch
+     * @param branchInfo - a branch dto with bank ID to link the branch to.
+     */
+    @PreAuthorize(&quot;hasAnyAuthority({'employee', 'administrator'})&quot;)
+    public Branch postBranch(CreateBranch branchInfo){
+<span class="fc" id="L40">        Bank bank = bankRepository.findById(branchInfo.getBankID()).orElseThrow(BankNotFoundException::new);</span>
+
+<span class="fc" id="L42">        Branch branch = new Branch();</span>
+<span class="fc" id="L43">        mapper.map(branchInfo, branch);</span>
+<span class="fc" id="L44">        branch.setBank(bank);</span>
+<span class="fc" id="L45">        return branchRepository.save(branch);</span>
+    }
+
+    /**
+     * Update a branch using branch ID
+     * @param branchInfo
+     */
+    @PreAuthorize(&quot;hasAnyAuthority({'employee', 'administrator'})&quot;)
+    public void updateBranch(UpdateBranch branchInfo){
+
+<span class="fc" id="L55">        Branch branch = branchRepository.findById(branchInfo.getId()).orElseThrow(BranchNotFoundException::new);</span>
+
+<span class="fc" id="L57">        ModelMapper myMapper = new ModelMapper();</span>
+<span class="fc" id="L58">        myMapper.getConfiguration().setSkipNullEnabled(true);</span>
+<span class="fc" id="L59">        myMapper.map(branchInfo, branch);</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if(branchInfo.getBankID()!=null){</span>
+<span class="fc" id="L62">            Bank bank = bankRepository.findById(branchInfo.getBankID()).orElseThrow(BankNotFoundException::new);</span>
+<span class="fc" id="L63">            branch.setBank(bank);</span>
+        }
+
+<span class="fc" id="L66">        branchRepository.save(branch);</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * Delete Branch By Id
+     * @param branchId
+     */
+    @PreAuthorize(&quot;hasAnyAuthority({'administrator', 'employee'})&quot;)
+    public void deleteBranch(Long branchId){
+<span class="fc" id="L75">        branchRepository.deleteById(branchId);</span>
+<span class="fc" id="L76">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

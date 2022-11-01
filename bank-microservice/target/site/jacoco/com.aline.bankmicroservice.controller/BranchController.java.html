@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BranchController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bank-microservice</a> &gt; <a href="index.source.html" class="el_package">com.aline.bankmicroservice.controller</a> &gt; <span class="el_source">BranchController.java</span></div><h1>BranchController.java</h1><pre class="source lang-java linenums">package com.aline.bankmicroservice.controller;
+
+import com.aline.bankmicroservice.dto.request.CreateBranch;
+import com.aline.bankmicroservice.dto.request.UpdateBranch;
+import com.aline.bankmicroservice.service.BranchService;
+import com.aline.core.model.Branch;
+import com.aline.core.paginated.BranchPaginated;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+
+@RestController
+@RequestMapping(&quot;/branches&quot;)
+<span class="fc" id="L28">@Slf4j(topic = &quot;branch Controller&quot;)</span>
+<span class="fc" id="L29">@RequiredArgsConstructor</span>
+@Tag(name = &quot;branches&quot;)
+public class BranchController {
+
+    private static final int DEFAULT_PAGE_SIZE = 15;
+    private final BranchService branchService;
+    @Value(&quot;${server.port}&quot;)
+    public int PORT;
+
+    @Operation(description = &quot;Retrieve a page of branches&quot;)
+    @ApiResponses({@ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieves a paginated branch dto&quot;)})
+    @GetMapping(&quot;&quot;)
+    public ResponseEntity&lt;BranchPaginated&gt; getBranches(
+            @PageableDefault(size = DEFAULT_PAGE_SIZE) @SortDefault(sort = &quot;id&quot;, direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+
+<span class="fc" id="L45">        BranchPaginated branches = branchService.getBranches(pageable);</span>
+<span class="fc" id="L46">        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(branches);</span>
+    }
+
+    @Operation(description = &quot;Create a Branch of the main bank&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Successfully creates a branch&quot;)
+    })
+    @PostMapping()
+    public ResponseEntity&lt;Branch&gt; createBranch(@RequestBody CreateBranch branchInfo) {
+<span class="nc" id="L55">        Branch branch = branchService.postBranch(branchInfo);</span>
+<span class="nc" id="L56">        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()</span>
+<span class="nc" id="L57">                .path(&quot;/branches/{id}&quot;)</span>
+<span class="nc" id="L58">                .port(PORT)</span>
+<span class="nc" id="L59">                .buildAndExpand(branch.getId())</span>
+<span class="nc" id="L60">                .toUri();</span>
+
+<span class="nc" id="L62">        return ResponseEntity.created(location).contentType(MediaType.APPLICATION_JSON).body(branch);</span>
+    }
+
+    @Operation(description = &quot;Update a Branch of the main bank&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Successfully updates a branch&quot;)
+    })
+    @PutMapping()
+    public ResponseEntity&lt;Void&gt; updateBranch(@RequestBody UpdateBranch updateBranch) {
+<span class="nc" id="L71">        branchService.updateBranch(updateBranch);</span>
+<span class="nc" id="L72">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @Operation(description = &quot;Update a Branch of the main bank&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Successfully deletes a branch&quot;)
+    })
+    @DeleteMapping()
+    public ResponseEntity&lt;Void&gt; deleteBranchById(@RequestParam Long branchId) {
+<span class="nc" id="L81">        branchService.deleteBranch(branchId);</span>
+<span class="nc" id="L82">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

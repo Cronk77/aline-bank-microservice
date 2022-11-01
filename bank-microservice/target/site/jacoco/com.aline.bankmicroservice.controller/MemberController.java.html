@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MemberController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bank-microservice</a> &gt; <a href="index.source.html" class="el_package">com.aline.bankmicroservice.controller</a> &gt; <span class="el_source">MemberController.java</span></div><h1>MemberController.java</h1><pre class="source lang-java linenums">package com.aline.bankmicroservice.controller;
+
+import com.aline.bankmicroservice.dto.request.MemberSearchCriteria;
+import com.aline.bankmicroservice.dto.request.MemberUpdateRequest;
+import com.aline.bankmicroservice.dto.response.MemberResponse;
+import com.aline.bankmicroservice.service.MemberService;
+import com.amazonaws.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(&quot;/members&quot;)
+<span class="fc" id="L22">@Slf4j(topic = &quot;Member Controller&quot;)</span>
+<span class="fc" id="L23">@AllArgsConstructor</span>
+@Tag(name = &quot;Member&quot;)
+public class MemberController {
+    private final MemberService memberService;
+
+    @Operation(description = &quot;Search Members by using the Member Search Criteria and Pageable Parameters&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieves the search&quot;),
+            @ApiResponse(responseCode = &quot;403&quot;, description = &quot;Unauthorized attempt to access api. Must have employee or administrator authority&quot;)
+    })
+    @GetMapping(&quot;&quot;)
+    public ResponseEntity&lt;Page&lt;MemberResponse&gt;&gt; getMembersBySearch(Pageable pageable,
+                                                                   MemberSearchCriteria searchCriteria) {
+<span class="fc" id="L36">        Page&lt;MemberResponse&gt; membersPage = memberService.searchMembers(searchCriteria, pageable);</span>
+<span class="fc" id="L37">        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(membersPage);</span>
+    }
+
+    @Operation(description = &quot;Retrieves Member by Membership Id&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieves member&quot;)
+    })
+    @GetMapping(&quot;/{membershipId}&quot;)
+    public ResponseEntity&lt;MemberResponse&gt; getMemberByMembershipId(@PathVariable String membershipId){
+<span class="nc" id="L46">        MemberResponse member = memberService.getMemberByMembershipId(membershipId);</span>
+<span class="nc" id="L47">        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(member);</span>
+    }
+
+    @Operation(description = &quot;Update Member Application details&quot;)
+    @ApiResponses({
+            @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Successfully updates&quot;)
+    })
+    @PutMapping(&quot;&quot;)
+    public ResponseEntity&lt;Void&gt; updateMember(@RequestBody MemberUpdateRequest update) {
+<span class="nc" id="L56">        memberService.updateMember(update);</span>
+<span class="nc" id="L57">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

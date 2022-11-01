@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BankService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bank-microservice</a> &gt; <a href="index.source.html" class="el_package">com.aline.bankmicroservice.service</a> &gt; <span class="el_source">BankService.java</span></div><h1>BankService.java</h1><pre class="source lang-java linenums">package com.aline.bankmicroservice.service;
+
+import com.aline.bankmicroservice.dto.request.CreateBank;
+import com.aline.bankmicroservice.exception.BankNotFoundException;
+import com.aline.core.model.Bank;
+import com.aline.core.repository.BankRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L16">@RequiredArgsConstructor</span>
+<span class="fc" id="L17">@Slf4j(topic = &quot;Bank Service&quot;)</span>
+public class BankService {
+    private final BankRepository bankRepository;
+    private final ModelMapper mapper;
+
+    public Page&lt;Bank&gt; getBanks(Pageable pageable){
+<span class="fc" id="L23">        return bankRepository.findAll(pageable);</span>
+    }
+
+    public Bank findBankById(Long id){
+        long searchId;
+
+<span class="pc bpc" id="L29" title="3 of 4 branches missed.">        if(id==null || id==0) searchId=1L;</span>
+<span class="nc" id="L30">        else searchId = id;</span>
+<span class="fc" id="L31">        return bankRepository.findById(searchId).orElseThrow(BankNotFoundException::new);</span>
+    }
+
+    @PreAuthorize(&quot;hasAnyAuthority({'employee', 'administrator'})&quot;)
+    public Bank createBank(CreateBank createBank){
+<span class="fc" id="L36">        Bank newBank = new Bank();</span>
+<span class="fc" id="L37">        mapper.map(createBank, newBank);</span>
+<span class="fc" id="L38">        return bankRepository.save(newBank);</span>
+    }
+
+    public String getBankRouting(Long id){
+        long searchId;
+
+<span class="pc bpc" id="L44" title="3 of 4 branches missed.">        if(id==null || id==0) searchId=1L;</span>
+<span class="nc" id="L45">        else searchId = id;</span>
+
+<span class="fc" id="L47">        Bank bank = bankRepository.findById(searchId).orElseThrow(BankNotFoundException::new);</span>
+
+<span class="fc" id="L49">        return bank.getRoutingNumber();</span>
+    }
+
+//    public Bank updateBank()
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

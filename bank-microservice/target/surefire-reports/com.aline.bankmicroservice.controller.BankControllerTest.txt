@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.aline.bankmicroservice.controller.BankControllerTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.558 s - in com.aline.bankmicroservice.controller.BankControllerTest

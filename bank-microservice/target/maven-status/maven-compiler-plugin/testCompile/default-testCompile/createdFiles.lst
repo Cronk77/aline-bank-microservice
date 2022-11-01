@@ -1,0 +1,8 @@
+com/aline/bankmicroservice/controller/BankControllerTest.class
+com/aline/bankmicroservice/specification/MemberSpecificationTest.class
+com/aline/bankmicroservice/controller/RootControllerTest.class
+com/aline/bankmicroservice/service/MemberServiceTest.class
+com/aline/bankmicroservice/service/BranchServiceTest.class
+com/aline/bankmicroservice/controller/BranchControllerTest.class
+com/aline/bankmicroservice/SmokeTest.class
+com/aline/bankmicroservice/controller/MemberControllerTest.class
