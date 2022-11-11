@@ -1,0 +1,148 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.aline.core.config.AppConfig",
+      "sourceType": "com.aline.core.config.AppConfig"
+    },
+    {
+      "name": "app.aws",
+      "type": "com.aline.core.aws.config.AWSConfig",
+      "sourceType": "com.aline.core.aws.config.AWSConfig"
+    },
+    {
+      "name": "app.aws.credentials",
+      "type": "com.aline.core.aws.config.AWSConfig$Credentials",
+      "sourceType": "com.aline.core.aws.config.AWSConfig",
+      "sourceMethod": "getCredentials()"
+    },
+    {
+      "name": "app.aws.email",
+      "type": "com.aline.core.aws.config.AWSEmailConfig",
+      "sourceType": "com.aline.core.aws.config.AWSEmailConfig"
+    },
+    {
+      "name": "app.email",
+      "type": "com.aline.core.config.AppConfig$Email",
+      "sourceType": "com.aline.core.config.AppConfig",
+      "sourceMethod": "getEmail()"
+    },
+    {
+      "name": "app.security",
+      "type": "com.aline.core.config.AppConfig$Security",
+      "sourceType": "com.aline.core.config.AppConfig",
+      "sourceMethod": "getSecurity()"
+    },
+    {
+      "name": "app.security.jwt",
+      "type": "com.aline.core.security.config.JwtConfig",
+      "sourceType": "com.aline.core.security.config.JwtConfig"
+    },
+    {
+      "name": "app.sms",
+      "type": "com.aline.core.config.AppConfig$SMS",
+      "sourceType": "com.aline.core.config.AppConfig",
+      "sourceMethod": "getSms()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.admin-portal",
+      "type": "java.lang.String",
+      "description": "The admin portal url.",
+      "sourceType": "com.aline.core.config.AppConfig"
+    },
+    {
+      "name": "app.api",
+      "type": "java.lang.String",
+      "description": "The API URL of the microservices. @apiNote The url has a {port} placeholder.",
+      "sourceType": "com.aline.core.config.AppConfig"
+    },
+    {
+      "name": "app.aws.credentials.access-key-id",
+      "type": "java.lang.String",
+      "description": "Access key ID provided by your AWS user",
+      "sourceType": "com.aline.core.aws.config.AWSConfig$Credentials",
+      "defaultValue": ""
+    },
+    {
+      "name": "app.aws.credentials.secret-access-key",
+      "type": "java.lang.String",
+      "description": "Secret access key provided by your AWS user",
+      "sourceType": "com.aline.core.aws.config.AWSConfig$Credentials",
+      "defaultValue": ""
+    },
+    {
+      "name": "app.aws.email.template-bucket-name",
+      "type": "java.lang.String",
+      "description": "The S3 Bucket that holds the email templates.",
+      "sourceType": "com.aline.core.aws.config.AWSEmailConfig"
+    },
+    {
+      "name": "app.email.enable",
+      "type": "java.lang.Boolean",
+      "description": "Enable email services",
+      "sourceType": "com.aline.core.config.AppConfig$Email",
+      "defaultValue": false
+    },
+    {
+      "name": "app.email.from",
+      "type": "java.lang.String",
+      "description": "Email address to send emails from",
+      "sourceType": "com.aline.core.config.AppConfig$Email"
+    },
+    {
+      "name": "app.landing-portal",
+      "type": "java.lang.String",
+      "description": "The landing portal url.",
+      "sourceType": "com.aline.core.config.AppConfig"
+    },
+    {
+      "name": "app.member-dashboard",
+      "type": "java.lang.String",
+      "description": "The member dashboard url.",
+      "sourceType": "com.aline.core.config.AppConfig"
+    },
+    {
+      "name": "app.security.disable-web-security",
+      "type": "java.lang.Boolean",
+      "description": "Disables web security",
+      "sourceType": "com.aline.core.config.AppConfig$Security",
+      "defaultValue": false
+    },
+    {
+      "name": "app.security.jwt.secret-key",
+      "type": "java.lang.String",
+      "description": "JWT Secret Key",
+      "sourceType": "com.aline.core.security.config.JwtConfig"
+    },
+    {
+      "name": "app.security.jwt.token-expiration-after-days",
+      "type": "java.lang.Integer",
+      "description": "The number of days the token will expire after",
+      "sourceType": "com.aline.core.security.config.JwtConfig",
+      "defaultValue": 14
+    },
+    {
+      "name": "app.security.jwt.token-prefix",
+      "type": "java.lang.String",
+      "description": "Token prefix",
+      "sourceType": "com.aline.core.security.config.JwtConfig",
+      "defaultValue": "Bearer"
+    },
+    {
+      "name": "app.security.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret Key for encryption and decryption.",
+      "sourceType": "com.aline.core.config.AppConfig$Security"
+    },
+    {
+      "name": "app.sms.enable",
+      "type": "java.lang.Boolean",
+      "description": "Enable SMS services",
+      "sourceType": "com.aline.core.config.AppConfig$SMS",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}
