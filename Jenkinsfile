@@ -57,6 +57,7 @@ pipeline{
         stage("Build"){
             steps{
                 script{
+                    sh 'sudo usermod -a -G docker jenkins'
                     image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "--build-arg APP_PORT=${APP_PORT} .")
                 }
             }
