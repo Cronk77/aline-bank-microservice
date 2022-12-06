@@ -4,7 +4,7 @@ pipeline{
     environment{
         //variables are set as secret text credentials to maintain security and parameterization
         //ensures logs also don't shows secret values
-        APP_PORT = 80
+        APP_PORT = 81
         IMAGE_NAME = "cc-bank-microservice" //acts as ecr repo name also
         IMAGE_TAG = "0.1." + "${env.BUILD_ID}"
         AWS_REGION = credentials('AWS_REGION')
