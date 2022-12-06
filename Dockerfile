@@ -37,4 +37,5 @@ FROM openjdk:8u181-jre-alpine as final
 # Run Program
 WORKDIR /app/
 COPY --from=build /aline-bank-microservice/bank-microservice/target/bank-microservice-0.1.0.jar bank_jar
+EXPOSE ${APP_PORT}
 CMD java -jar bank_jar
