@@ -18,8 +18,7 @@ pipeline{
     agent any    
     tools{
         maven "M3"
-        //dockerTool "docker"
-        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker-20.10.12'
+        dockerTool "docker"
     }
     stages{
 
