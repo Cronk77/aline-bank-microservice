@@ -6,7 +6,8 @@ pipeline{
         //ensures logs also don't shows secret values
         APP_PORT = 80
         IMAGE_NAME = "cc-bank-microservice" //acts as ecr repo name also
-        IMAGE_TAG = "0.1." + "${env.BUILD_ID}"
+        //IMAGE_TAG = "0.1." + "${env.BUILD_ID}"
+        IMAGE_TAG = "${GIT_COMMIT}"
         AWS_REGION = credentials('AWS_REGION')
         AWS_ACCOUNT_ID = credentials('AWS_ACCOUNT_ID')
         AWS_JENKINS_CRED = "cc-aws-cred"
@@ -27,32 +28,32 @@ pipeline{
                 checkout scm
             }
         }
-        // stage("Test"){
-        //     steps{
-        //         sh "mvn clean test"  
-        //     }
-        // }
-        // stage('SonarQube Analysis') {
-        //     steps{
-        //         withSonarQubeEnv('SQ') {
-        //             sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${SONARQUBE_PROJECT}"
-        //         }
-        //     }
-        // }
-        // stage('Quality Gate'){//assess using custom qality gate cc-qualityGate
-        //     steps{
-        //         waitForQualityGate abortPipeline: true
-        //     }
-        // }
-        // stage('Remove old Image(s)'){//to ensure the agent doesnt run out of space by deleting image builds
-		// 	steps{
-        //         //ensures build doesn't fail if there isnt any previous images to delete
-        //         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-        //             sh 'docker rmi -f $(docker images --filter reference="${IMAGE_NAME}" -q)'
-		// 		    sh 'docker rmi --force $(docker images -q -f dangling=true)'
-        //         }
-		// 	}
-		// }
+        stage("Test"){
+            steps{
+                sh "mvn clean test"  
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps{
+                withSonarQubeEnv('SQ') {
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${SONARQUBE_PROJECT}"
+                }
+            }
+        }
+        stage('Quality Gate'){//assess using custom qality gate cc-qualityGate
+            steps{
+                waitForQualityGate abortPipeline: true
+            }
+        }
+        stage('Remove old Image(s)'){//to ensure the agent doesnt run out of space by deleting image builds
+			steps{
+                //ensures build doesn't fail if there isnt any previous images to delete
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh 'docker rmi -f $(docker images --filter reference="${IMAGE_NAME}" -q)'
+				    sh 'docker rmi --force $(docker images -q -f dangling=true)'
+                }
+			}
+		}
         stage("Build"){
             steps{
                 script{
