@@ -77,7 +77,7 @@ pipeline{
             steps{
                 script{
                     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'cc-kubeconfig', namespace: '', serverUrl: '') {
-                        sh 'kubectl delete deployment ${SERVICE_NAME}-deployment'
+                        //sh 'kubectl delete deployment ${SERVICE_NAME}-deployment'
                         sh 'kubectl apply -f  ${DEPLOYMENT_FILE}'
                     }
                 }
