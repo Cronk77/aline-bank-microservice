@@ -68,7 +68,7 @@ pipeline{
                         "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com",
                         "ecr:${AWS_REGION}:${AWS_JENKINS_CRED}"){
                         image.push("${IMAGE_TAG}")
-                        image.push('latest')
+                        //image.push('latest')
                     }
                 }
             }
