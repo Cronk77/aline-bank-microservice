@@ -4,7 +4,7 @@ pipeline{
     environment{
         //variables are set as secret text credentials to maintain security and parameterization
         //ensures logs also don't shows secret values
-        APP_PORT = 80
+        APP_PORT = 8172
         IMAGE_NAME = "cc-bank-microservice" //acts as ecr repo name also
         //IMAGE_TAG = "0.1." + "${env.BUILD_ID}"
         IMAGE_TAG = "${GIT_COMMIT}"
@@ -67,8 +67,8 @@ pipeline{
                     docker.withRegistry(
                         "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com",
                         "ecr:${AWS_REGION}:${AWS_JENKINS_CRED}"){
-                        image.push("${IMAGE_TAG}")
-                        //image.push('latest')
+                        //image.push("${IMAGE_TAG}")
+                        image.push('latest')
                     }
                 }
             }
